@@ -6,30 +6,41 @@ import javax.persistence.*
 
 
 @Entity
-class Comment (
+class Comment(
+    _desc: String,
+    _depth: Int,
+    _board: Board,
+    _user: User,
+    _parentComment: Comment?
+) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    val id: Long,
+    val id: Long = 0
 
     @Column(name = "description", nullable = false)
-    val desc: String,
+    var desc: String = _desc
+
+    @Column(nullable = false)
+    var depth: Int = _depth
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id", nullable = false)
-    val board: Board,
+    val board: Board = _board
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val user: User,
+    val user: User = _user
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id", nullable = false)
-    val parentComment: Comment? = null,
+    @JoinColumn(name = "prent_comment_id")
+    var parentComment: Comment? = _parentComment
+        protected set
 
     @OneToMany(mappedBy = "parentComment", cascade = [CascadeType.ALL])
-    val childComment: MutableList<Comment>? = ArrayList()
-    ){
+    protected val mutableChildComment: MutableList<Comment> = mutableListOf()
+    val childComment: List<Comment> get() = mutableChildComment.toList()
 
 }

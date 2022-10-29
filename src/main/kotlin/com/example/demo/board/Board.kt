@@ -6,16 +6,22 @@ import javax.persistence.*
 
 @Entity
 class Board (
+    _desc:String,
+    _user:User
+) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    val id: Long,
+    val id: Long = 0
 
     @Column(name = "description", nullable = false)
-    val desc: String,
+    var desc: String = _desc
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    val User: User,
-)
+    var user: User = _user
+        protected set
+
+}

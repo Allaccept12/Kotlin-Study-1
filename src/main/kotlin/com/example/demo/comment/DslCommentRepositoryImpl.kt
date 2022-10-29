@@ -12,11 +12,7 @@ class DslCommentRepositoryImpl (
 
 
     override fun getAllComments(boardId: Long): List<Comment> {
-        queryFactory
-            .select(
-                Projections.constructor()
-            )
-            .from(comment)
+        TODO("Not yet implemented")
 
     }
 
